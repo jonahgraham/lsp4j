@@ -1,13 +1,20 @@
 /*******************************************************************************
- * Copyright (c) 2016, 2017 TypeFox GmbH (http://www.typefox.io) and others.
+ * Copyright (c) 2017 Kichwa Coders Ltd. and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 
-rootProject.name = 'lsp4j'
-include 'org.eclipse.lsp4j'
-include 'org.eclipse.lsp4j.generator'
-include 'org.eclipse.lsp4j.jsonrpc'
-include 'org.eclipse.dsp4j.jsonrpc'
+ext.title = 'DSP4J JSON-RPC'
+description = 'Debug Protocol JSON-RPC implementation'
+
+dependencies {
+	compile project(":org.eclipse.lsp4j.jsonrpc")
+	compile "com.google.code.gson:gson:$versions.gson"
+	testCompile "junit:junit:$versions.junit"
+}
+
+jar.manifest {
+	instruction 'Import-Package', '*'
+}

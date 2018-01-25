@@ -214,7 +214,11 @@ public class DebugMessageTypeAdapter extends MessageTypeAdapter {
 				break;
 			}
 			case "message": {
-				message = in.nextString();
+				if (in.peek() == JsonToken.NULL) {
+					in.nextNull();
+				} else {
+					message = in.nextString();
+				}
 				break;
 			}
 			case "arguments": {

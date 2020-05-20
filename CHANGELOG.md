@@ -1,5 +1,15 @@
 ## LSP4J Change Log
 
+### v0.10.0 (Date TBD)
+
+Breaking API changes:
+ * In LSP Protocol `TextDocumentSyncOptions.save` was previously of type
+   `SaveOptions`. To match a clarification in LSP spec it is now
+   `Either<Boolean, SaveOptions>`. This change in the LSP spec was applied
+   to the 3.15 version of the LSP spec. See [LSP issue #989](https://github.com/microsoft/language-server-protocol/issues/989).
+
+
+
 ### v0.9.0 (Feb. 2020)
 
  * Implemented DAP version 1.36.0

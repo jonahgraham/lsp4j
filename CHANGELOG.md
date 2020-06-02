@@ -2,12 +2,31 @@
 
 ### v0.10.0 (Date TBD)
 
+ * Implemented DAP version 1.37.0's CancelRequest
+ * Implemented DAP version 1.38.0
+ * Implemented DAP version 1.39.0
+ * Implemented DAP version 1.40.0
+ * Implemented DAP version 1.41.0
+
 Breaking API changes:
  * In LSP Protocol `TextDocumentSyncOptions.save` was previously of type
    `SaveOptions`. To match a clarification in LSP spec it is now
    `Either<Boolean, SaveOptions>`. This change in the LSP spec was applied
    to the 3.15 version of the LSP spec. See [LSP issue #989](https://github.com/microsoft/language-server-protocol/issues/989).
-
+ * In DAP Protocol `ReadMemoryArguments.count` was `Integer` however it is
+   a required property and has been changed to `int`
+ * In DAP Protocol `Module.id` has been marked `@NonNull` as `id` is a required
+   property.
+ * In DAP Protocol `Scope.presentationHint` was an enum `ScopePresentationHint`, it
+   is now a `String` as `presentationHint` has possible values that include - but
+   not limited to those defined in `ScopePresentationHint`. `ScopePresentationHint`
+   has changed from an enum to an interface containing String constants.
+ * In DAP Protocol `SetBreakpointsArguments.lines` was changed from `Integer[]` to
+   `int[]` as the individual items in the array are not optional, but the array as
+   a whole is optional. 
+ * In DAP Protocol `TerminateThreadsArguments.threadIds` was changed from `Integer[]` to
+   `int[]` as the individual items in the array are not optional, but the array as
+   a whole is optional. 
 
 
 ### v0.9.0 (Feb. 2020)

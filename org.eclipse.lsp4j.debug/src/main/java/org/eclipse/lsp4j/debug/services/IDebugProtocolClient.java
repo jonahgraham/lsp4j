@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2017, 2019 Kichwa Coders Ltd. and others.
+ * Copyright (c) 2017, 2020 Kichwa Coders Ltd. and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -20,6 +20,9 @@ import org.eclipse.lsp4j.debug.LoadedSourceEventArguments;
 import org.eclipse.lsp4j.debug.ModuleEventArguments;
 import org.eclipse.lsp4j.debug.OutputEventArguments;
 import org.eclipse.lsp4j.debug.ProcessEventArguments;
+import org.eclipse.lsp4j.debug.ProgressEndEventArguments;
+import org.eclipse.lsp4j.debug.ProgressStartEventArguments;
+import org.eclipse.lsp4j.debug.ProgressUpdateEventArguments;
 import org.eclipse.lsp4j.debug.StoppedEventArguments;
 import org.eclipse.lsp4j.debug.TerminatedEventArguments;
 import org.eclipse.lsp4j.debug.ThreadEventArguments;
@@ -34,7 +37,7 @@ public interface IDebugProtocolClient {
 	/**
 	 * Version of Debug Protocol
 	 */
-	public static final String SCHEMA_VERSION = "1.37.0";
+	public static final String SCHEMA_VERSION = "1.41.0";
 
 	/**
 	 * This event indicates that the debug adapter is ready to accept configuration
@@ -49,7 +52,8 @@ public interface IDebugProtocolClient {
 	 * <li>adapters sends 'initialized' event (after the 'initialize' request has
 	 * returned)</li>
 	 * <li>frontend sends zero or more 'setBreakpoints' requests</li>
-	 * <li>frontend sends one 'setFunctionBreakpoints' request</li>
+	 * <li>frontend sends one 'setFunctionBreakpoints' request (if capability
+	 * 'supportsFunctionBreakpoints' is true)</li>
 	 * <li>frontend sends a 'setExceptionBreakpoints' request if one or more
 	 * 'exceptionBreakpointFilters' have been defined (or if
 	 * 'supportsConfigurationDoneRequest' is not defined or false)</li>
@@ -66,7 +70,7 @@ public interface IDebugProtocolClient {
 	 * The event indicates that the execution of the debuggee has stopped due to
 	 * some condition.
 	 * <p>
-	 * This can be caused by a break point previously set, a stepping action has
+	 * This can be caused by a break point previously set, a stepping request has
 	 * completed, by executing a debugger statement etc.
 	 */
 	@JsonNotification
@@ -161,5 +165,45 @@ public interface IDebugProtocolClient {
 	 */
 	@JsonNotification
 	default void capabilities(CapabilitiesEventArguments args) {
+	}
+
+	/**
+	 * The event signals that a long running operation is about to start and
+	 * <p>
+	 * provides additional information for the client to set up a corresponding
+	 * progress and cancellation UI.
+	 * <p>
+	 * The client is free to delay the showing of the UI in order to reduce flicker.
+	 * <p>
+	 * This event should only be sent if the client has passed the value true for
+	 * the 'supportsProgressReporting' capability of the 'initialize' request.
+	 */
+	@JsonNotification
+	default void progressStart(ProgressStartEventArguments args) {
+	}
+
+	/**
+	 * The event signals that the progress reporting needs to updated with a new
+	 * message and/or percentage.
+	 * <p>
+	 * The client does not have to update the UI immediately, but the clients needs
+	 * to keep track of the message and/or percentage values.
+	 * <p>
+	 * This event should only be sent if the client has passed the value true for
+	 * the 'supportsProgressReporting' capability of the 'initialize' request.
+	 */
+	@JsonNotification
+	default void progressUpdate(ProgressUpdateEventArguments args) {
+	}
+
+	/**
+	 * The event signals the end of the progress reporting with an optional final
+	 * message.
+	 * <p>
+	 * This event should only be sent if the client has passed the value true for
+	 * the 'supportsProgressReporting' capability of the 'initialize' request.
+	 */
+	@JsonNotification
+	default void progressEnd(ProgressEndEventArguments args) {
 	}
 }

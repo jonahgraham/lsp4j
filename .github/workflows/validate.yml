@@ -90,3 +90,4 @@ jobs:
         if-no-files-found: warn
         path: |
           ${{ github.workspace }}/build/p2-repository/japicmp-report/
+# fake
